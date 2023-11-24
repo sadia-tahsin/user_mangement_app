@@ -15,6 +15,12 @@ export type User = {
             street: string;
             city: string;
             country: string
+
         };
+        orders: [{
+            productName: string;
+            price: number
+            quantity:number;
+        }]
     
 }

@@ -6,3 +6,8 @@ export const createUserInDB = async(user: User)=>{
     return result
 }
 
+export const getUserFromDB = async()=>{
+    const result = await UserModel.find();
+    return result;
+}
+

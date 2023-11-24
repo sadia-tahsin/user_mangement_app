@@ -13,6 +13,11 @@ const userSchema = new Schema<User>({
     email: {type: String},
     isActive: {type: Boolean},
     hobbies: { type: [String]},
+    orders: {type: [{
+        productName: {type: String},
+        price: {type: Number},
+        quantity: {type: Number}
+    }]}
     
 
 })
