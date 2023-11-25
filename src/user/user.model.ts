@@ -27,17 +27,14 @@ const userSchema = new Schema<User,IUserModel>({
     
 
 })
-//pre hook
+
+//using pre hook for hashing the password
 userSchema.pre('save',async function(next){
    this.password = await bcrypt.hash(this.password,Number(config.bcrypt_salt));
    next();
 })
-//post hook
-userSchema.post('save',function(){
-    
-})
 
-userSchema.statics.isFound = async function (id:string) {
+userSchema.statics.isFound = async function (id:number) {
     const specificUser = await UserModel.findOne({userId:id});
     return specificUser;
 

@@ -1,5 +1,10 @@
 import { Model } from "mongoose";
 
+export type tOrder = {
+     productName: string;
+     price: number;
+     quantity:number}
+
 export type User = {
         userId: number;
         username: string;
@@ -19,11 +24,7 @@ export type User = {
             country: string
 
         };
-        orders: [{
-            productName: string;
-            price: number
-            quantity:number;
-        }]
+        orders: [tOrder]
     
 }
 // export type UserInstanceMethod = {
@@ -31,5 +32,5 @@ export type User = {
 // }
 //export type TUserModel = Model<User, Record<string,string>,UserInstanceMethod>;
 export interface IUserModel extends Model<User>{
-    isFound(id:string):Promise<User|null>
+    isFound(id:number):Promise<User|null>
 } 
