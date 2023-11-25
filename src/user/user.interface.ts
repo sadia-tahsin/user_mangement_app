@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export type User = {
         userId: number;
         username: string;
@@ -24,3 +26,7 @@ export type User = {
         }]
     
 }
+export type UserInstanceMethod = {
+    isFound(id:number):Promise<User|null>
+}
+export type TUserModel = Model<User, Record<string,string>,UserInstanceMethod>;
