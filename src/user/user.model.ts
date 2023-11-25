@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import {   User,  IUserModel } from "./user.interface";
-
+import bcrypt from 'bcrypt'
+import config from "../config";
 const userSchema = new Schema<User,IUserModel>({
     userId: { type: Number},
     username: {type: String},
@@ -26,10 +27,16 @@ const userSchema = new Schema<User,IUserModel>({
     
 
 })
-// userSchema.methods.isFound = async function(id:number) {
-//     const user = await UserModel.findOne({userId:id})
-//     return user
-// }
+//pre hook
+userSchema.pre('save',async function(next){
+   this.password = await bcrypt.hash(this.password,Number(config.bcrypt_salt));
+   next();
+})
+//post hook
+userSchema.post('save',function(){
+    
+})
+
 userSchema.statics.isFound = async function (id:string) {
     const specificUser = await UserModel.findOne({userId:id});
     return specificUser;
