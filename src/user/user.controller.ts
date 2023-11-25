@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { createUserInDB, deleteUserFromDB, getSingleUserFromDB, getUserFromDB, updateUserInDB, updateUserOrderInDB} from "./user.service";
+import { createUserInDB, deleteUserFromDB, getOrdersFromDB, getSingleUserFromDB, getTotalPriceFromDB, getUserFromDB, updateUserInDB, updateUserOrderInDB} from "./user.service";
 
 export const createUser = async(req:Request, res:Response)=>{
  try{ 
@@ -121,3 +121,54 @@ export const updateUser = async(req:Request, res:Response)=>{
                  })
                }
             }
+
+
+            export const getUserOrder = async(req:Request, res:Response)=>{
+                try{ 
+                  
+                   const id = Number(req.params.userId)
+                   const result = await getOrdersFromDB(id)
+                  
+                   res.status(200).json({
+                       success: true,
+                       message:  "Order fetched successfully!",
+                       data: result,
+                     });
+                   }
+                   catch(err:any){
+                    res.status(404).json({
+                        "success": false,
+                        "message": err.message,
+                        "error": {
+                            "code": 404,
+                            "description": "User not found!"
+                        }
+                     })
+                   }
+                }
+    
+                
+            export const getTotalPrice = async(req:Request, res:Response)=>{
+                try{ 
+                  
+                   const id = Number(req.params.userId)
+                   const result = await getTotalPriceFromDB(id)
+                  
+                   res.status(200).json({
+                       success: true,
+                       message: "Total price calculated successfully!",
+                       data: result,
+                     });
+                   }
+                   catch(err:any){
+                    res.status(404).json({
+                        "success": false,
+                        "message": err.message,
+                        "error": {
+                            "code": 404,
+                            "description": "User not found!"
+                        }
+                     })
+                   }
+                }
+    

@@ -71,9 +71,12 @@ export const updateUserOrderInDB = async (order:tOrder, id:number) => {
 
     if (singleUser) {
         const orders = singleUser.orders
-        orders.push(order)
+        orders.push(...orders)
         console.log(orders)
-        const result = await UserModel.updateOne({ userId: id },  { $set: { orders } });
+        const result = await UserModel.updateOne(
+            { userId: id },  {
+                $set: { orders },
+            });
         if(result.modifiedCount>0){
          return null
         }
@@ -83,4 +86,39 @@ export const updateUserOrderInDB = async (order:tOrder, id:number) => {
     }
 };
     
- 
+export const getOrdersFromDB = async (id: number) => {
+    const singleUser = await UserModel.isFound(id);
+
+    if (singleUser) {
+
+         const result = singleUser.orders;
+         const orders:Array<object> = []
+         result.map(res=>{
+            const {productName,price,quantity}= res
+            const data = {productName,price,quantity}
+            orders.push(data)
+     
+    })
+         return orders;
+    } else {
+        throw new Error("User not found");
+    }
+};
+
+export const getTotalPriceFromDB = async (id: number) => {
+    const singleUser = await UserModel.isFound(id);
+
+    if (singleUser) {
+
+         const result = singleUser.orders;
+         let totalPrice = 0
+
+         result.map(res=>{
+            totalPrice = totalPrice + (res.price*res.quantity)
+     
+    })
+         return {totalPrice};
+    } else {
+        throw new Error("User not found");
+    }
+};
