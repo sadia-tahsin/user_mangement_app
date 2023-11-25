@@ -2,11 +2,19 @@ import { User, tOrder } from "./user.interface";
 import {UserModel} from "./user.model"
 
 export const createUserInDB = async(user: User)=>{
+    const singleUser = await UserModel.isFound(user.userId);
+    if(!singleUser)
+    {
     const result = await UserModel.create(user);
-    const {userId,username,fullName,age,email, isActive,hobbies,address}= result
-    const userData =  {userId,username,fullName,age,email, isActive,hobbies,address}
-    return userData
-}
+                const {userId,username,fullName,age,email, isActive,hobbies,address}= result
+                const userData =  {userId,username,fullName,age,email, isActive,hobbies,address}
+                return userData
+            }
+            else {
+                throw new Error("User already exists.");
+            }
+        }
+    
 
 export const getUserFromDB = async()=>{
     const result = await UserModel.find();

@@ -1,9 +1,22 @@
 import {Request, Response} from 'express';
 import { createUserInDB, deleteUserFromDB, getOrdersFromDB, getSingleUserFromDB, getTotalPriceFromDB, getUserFromDB, updateUserInDB, updateUserOrderInDB} from "./user.service";
+import Joi from 'joi'
+import JoiValidationSchema from './user.validation';
+
 
 export const createUser = async(req:Request, res:Response)=>{
  try{ 
+   
+
     const user = req.body
+    const {error, value} = JoiValidationSchema.validate(user)
+    if(error){
+        res.status(404).json({
+            success: false,
+            message: 'something went wrong',
+            error
+    })
+    }
     const result = await createUserInDB(user)
    
     res.status(200).json({
@@ -12,9 +25,13 @@ export const createUser = async(req:Request, res:Response)=>{
         data: result,
       });
     }
-    catch(err){
-        console.log(err)
-    }
+    catch(err:any){
+        res.status(404).json({
+            "success": false,
+            "message": err.message,
+            
+         })
+       }
 
 }
 export const getAllUsers = async(req:Request, res:Response)=>{
