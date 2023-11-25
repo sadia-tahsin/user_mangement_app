@@ -19,10 +19,12 @@ export const getUserFromDB = async()=>{
     })
     return users;
 }
-export const getSingleUserFromDB = async(id:string)=>{
-    const result = await UserModel.findOne({userId:id});
-    const {userId,username,fullName,age,email, isActive,hobbies,address}= result
-    const userData =  {userId,username,fullName,age,email, isActive,hobbies,address}
-    return userData 
-}
+ export const getSingleUserFromDB = async(id:string)=>{
 
+  if (await UserModel.isFound(id)){
+         const result = UserModel.isFound(id)
+        // const {userId,username,fullName,age,email, isActive,hobbies,address}= result
+        // const userData =  {userId,username,fullName,age,email, isActive,hobbies,address}
+        return result
+  }else throw new Error("User not found")
+ }

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import {  TUserModel, User, UserInstanceMethod } from "./user.interface";
+import {   User,  IUserModel } from "./user.interface";
 
-const userSchema = new Schema<User,TUserModel,UserInstanceMethod>({
+const userSchema = new Schema<User,IUserModel>({
     userId: { type: Number},
     username: {type: String},
     password: {type: String},
@@ -26,8 +26,13 @@ const userSchema = new Schema<User,TUserModel,UserInstanceMethod>({
     
 
 })
-userSchema.methods.isFound = async function(id:number) {
-    const user = await UserModel.findOne({userId:id})
-    return user
+// userSchema.methods.isFound = async function(id:number) {
+//     const user = await UserModel.findOne({userId:id})
+//     return user
+// }
+userSchema.statics.isFound = async function (id:string) {
+    const specificUser = await UserModel.findOne({userId:id});
+    return specificUser;
+
 }
-export const UserModel = model<User,TUserModel>('User',userSchema);
+export const UserModel = model<User,IUserModel>('User',userSchema);

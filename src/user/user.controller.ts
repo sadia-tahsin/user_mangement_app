@@ -41,10 +41,10 @@ export const getSingleUser = async(req:Request, res:Response)=>{
             data: user
           });
 
-    } catch(err){
+    } catch(err:any){
         res.status(404).json({
             "success": false,
-            "message": "User not found",
+            "message": err.message,
             "error": {
                 "code": 404,
                 "description": "User not found!"

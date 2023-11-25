@@ -26,7 +26,10 @@ export type User = {
         }]
     
 }
-export type UserInstanceMethod = {
-    isFound(id:number):Promise<User|null>
-}
-export type TUserModel = Model<User, Record<string,string>,UserInstanceMethod>;
+// export type UserInstanceMethod = {
+//     isFound(id:number):Promise<User|null>
+// }
+//export type TUserModel = Model<User, Record<string,string>,UserInstanceMethod>;
+export interface IUserModel extends Model<User>{
+    isFound(id:string):Promise<User|null>
+} 
