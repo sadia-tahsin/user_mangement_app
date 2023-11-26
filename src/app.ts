@@ -1,13 +1,10 @@
-import express from 'express'
-import cors from 'cors'
-import { router } from "./user/user.route"
+import express from "express";
+import cors from "cors";
+import { router } from "./user/user.route";
 
+export const app = express();
 
-export const app = express()
+app.use(cors());
+app.use(express.json());
 
-
-app.use(cors())
-app.use(express.json())
-
-app.use('/api/users',router);
-
+app.use("/api/users", router);
