@@ -3,9 +3,9 @@
 # How to run the application locally
 - Initial setup:
     - Clone the repository.
-    - Install Dependencies: npm install
+    - Install Dependencies using 'npm install'.
       
-After completing the project setup, run two commands in the terminal: 'npm run build' and 'npm start'.
+After completing the project setup, run two commands in the terminal to build and run the app: 'npm run build' and 'npm start'.
 
 Now, the application should be running on http://localhost:5000/
 
@@ -43,7 +43,7 @@ Now, the application should be running on http://localhost:5000/
 - Retrieve a list of all users: This API can be checked using the Postman or similar application or directly from the browser.
  The API endpoint URL is: http://localhost:5000/api/users/
 -  Retrieve a specific user by ID: This API can be checked using the Postman or similar application or directly from the browser.
- The API endpoint URL is: http://localhost:5000/api/users/:userId
+ The API endpoint URL is: http://localhost:5000/api/users/:userId 
 - Update user information: To examine this API for updating a user, need to make a PUT request using the Postman or similar application.
    The API endpoint URL is: http://localhost:5000/api/users/:userId
 - Delete a user: To check this API for deleting a user from DB, Postman or a similar application can be used to send a DELETE request.
