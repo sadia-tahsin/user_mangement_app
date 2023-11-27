@@ -4,11 +4,39 @@
 - Initial setup:
     - Clone the repository: git clone <repository-url>
     - Install Dependencies: npm install
-After completing the project setup, run two commands in the terminal: 'npm run build' and 'npm start'. Now, the application should be running on http://localhost:5000/
+    - 
+After completing the project setup, run two commands in the terminal: 'npm run build' and 'npm start'.
+
+Now, the application should be running on http://localhost:5000/
 
 
 - Create a new user: To test the post route for creating a new user locally, Postman or a similar application can be used to send a POST request.
-  The API endpoint URL is: http://localhost:5000/api/users/  
+  The API endpoint URL is: http://localhost:5000/api/users/
+  
+  Sample data
+
+   ```  {
+        "userId": 3,
+        "username": "alice_davis",
+        "password": "$2b$12$3fJyHTgM8QgU.q.tlpNVyOf.hJYfhVe7XPGCHm9Wq1RmexUZbUEeu",
+        "fullName": {
+            "firstName": "Alice",
+            "lastName": "Davis"
+        },
+        "age": 28,
+        "email": "alice.davis@example.com",
+        "isActive": true,
+        "hobbies": [
+            "painting",
+            "swimming"
+        ],
+        "address": {
+            "street": "789 Pine St",
+            "city": "Largetown",
+            "country": "USA"
+        } ```
+
+
 - Retrieve a list of all users: This API can be checked using the Postman or similar application or directly from the browser.
  The API endpoint URL is: http://localhost:5000/api/users/
 -  Retrieve a specific user by ID: This API can be checked using the Postman or similar application or directly from the browser.
