@@ -53,10 +53,11 @@ Now, the application should be running on http://localhost:5000/
 
 ```
  {
-                "productName": "Product 1",
-                "price": 23.56,
-                "quantity": 2
-            }
+   "productName": "Product 1",
+   "price": 23.56,
+   "quantity": 2
+
+  }
 
 ```
 
