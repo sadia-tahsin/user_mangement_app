@@ -1,31 +1,31 @@
 import { Schema, model } from "mongoose";
-import { User, IUserModel } from "./user.interface";
+import { tUser, IUser } from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../config";
 
-const userSchema = new Schema<User, IUserModel>({
+const userSchema = new Schema<tUser, IUser>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
-  password: { type: String },
+  password: { type: String, required: true },
   fullName: {
-    firstName: { type: String },
-    lastName: { type: String },
+    firstName: { type: String, required: true },
+    lastName: { type: String,  required: true },
   },
-  age: { type: Number },
-  email: { type: String },
-  isActive: { type: Boolean },
-  hobbies: { type: [String] },
+  age: { type: Number,  required: true },
+  email: { type: String,  required: true },
+  isActive: { type: Boolean,  required: true },
+  hobbies: { type: [String],  required: true },
   address: {
-    street: { type: String },
-    city: { type: String },
-    country: { type: String },
+    street: { type: String,  required: true },
+    city: { type: String ,  required: true},
+    country: { type: String ,  required: true},
   },
   orders: {
     type: [
       {
-        productName: { type: String },
-        price: { type: Number },
-        quantity: { type: Number },
+        productName: { type: String ,  required: true},
+        price: { type: Number,  required: true },
+        quantity: { type: Number ,  required: true},
       },
     ],
   },
@@ -43,14 +43,10 @@ userSchema.statics.isFound = async function (id: number) {
   return specificUser;
 };
 
-// it is to ensure the uniqueness of the userId and username
-userSchema.statics.isValid = async function (id: number, name: string) {
-  const res1 = await UserModel.findOne({ userId: id });
-  const res2 = await UserModel.findOne({ username: name });
-  if (res1 && res2) {
-    return true;
-  } else {
-    return false;
-  }
+// it is to ensure the uniqueness of the username
+userSchema.statics.isFoundByName = async function (name: string) {
+  const specificUser = await UserModel.findOne({ username: name });
+  return specificUser;
 };
-export const UserModel = model<User, IUserModel>("User", userSchema);
+
+export const UserModel = model<tUser, IUser>("User", userSchema);

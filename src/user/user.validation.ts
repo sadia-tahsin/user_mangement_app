@@ -1,8 +1,19 @@
 import Joi from "joi";
+import { UserModel } from "./user.model";
 
 const JoiValidationSchema = Joi.object({
-  userId: Joi.number().required(),
-  username: Joi.string().required(),
+  userId: Joi.number().required().external(async (value) => {
+    if (await UserModel.isFound(value)) {
+      throw new Error('userId must be unique');
+    }
+    return value;
+  }),
+  username: Joi.string().required().external(async (value) => {
+    if (await UserModel.isFoundByName(value)) {
+      throw new Error('This username has been taken.');
+    }
+    return value;
+  }),
   password: Joi.string().required(),
   fullName: Joi.object({
     firstName: Joi.string().required(),
@@ -19,10 +30,10 @@ const JoiValidationSchema = Joi.object({
   }).required(),
   orders: Joi.array().items(
     Joi.object({
-      productName: Joi.string(),
-      price: Joi.number(),
-      quantity: Joi.number(),
+      productName: Joi.string().required(),
+      price: Joi.number().required(),
+      quantity: Joi.number().required(),
     })
   ),
-});
+})
 export default JoiValidationSchema;

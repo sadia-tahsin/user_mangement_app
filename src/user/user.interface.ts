@@ -5,7 +5,7 @@ export type tOrder = {
      price: number;
      quantity:number}
 
-export type User = {
+export type tUser = {
         userId: number;
         username: string;
         password: string;
@@ -27,10 +27,8 @@ export type User = {
         orders: [tOrder]
     
 }
-// export type UserInstanceMethod = {
-//     isFound(id:number):Promise<User|null>
-// }
-//export type TUserModel = Model<User, Record<string,string>,UserInstanceMethod>;
-export interface IUserModel extends Model<User>{
-    isFound(id:number):Promise<User|null>
-} 
+
+export type IUser = {
+    isFound(id:number):Promise<tUser|null>
+    isFoundByName(name:string):Promise<tUser|null>
+} & Model<tUser> // this is for including a static method

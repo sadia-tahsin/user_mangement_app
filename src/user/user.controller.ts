@@ -6,24 +6,18 @@ import {
   getOrdersFromDB,
   getSingleUserFromDB,
   getTotalPriceFromDB,
-  getUserFromDB,
+  getUsersFromDB,
   updateUserInDB,
   updateUserOrderInDB,
 } from "./user.service";
 import JoiValidationSchema from "./user.validation";
 
+// Creating a new user
 export const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const { error, value } = JoiValidationSchema.validate(user);
-    if (error) {
-      res.status(404).json({
-        success: false,
-        message: "something went wrong",
-        error,
-      });
-    }
-    const result = await createUserInDB(value);
+    const validUser = await JoiValidationSchema.validateAsync(user);
+    const result = await createUserInDB(validUser);
 
     res.status(200).json({
       success: true,
@@ -31,16 +25,16 @@ export const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err: any) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    res.status(404).json({
+    res.status(500).json({
       success: false,
       message: err.message,
     });
   }
 };
+
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const result = await getUserFromDB();
+    const result = await getUsersFromDB();
 
     res.status(200).json({
       success: true,
@@ -61,7 +55,7 @@ export const getSingleUser = async (req: Request, res: Response) => {
       data: user,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
   } catch (err: any) {
     res.status(404).json({
       success: false,
@@ -77,8 +71,9 @@ export const getSingleUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
+    const validUser = await JoiValidationSchema.validateAsync(user);
     const id = Number(req.params.userId);
-    const result = await updateUserInDB(user, id);
+    const result = await updateUserInDB(validUser, id);
 
     res.status(200).json({
       success: true,
