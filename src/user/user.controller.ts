@@ -1,23 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
-import {
-  createUserInDB,
-  deleteUserFromDB,
-  getOrdersFromDB,
-  getSingleUserFromDB,
-  getTotalPriceFromDB,
-  getUsersFromDB,
-  updateUserInDB,
-  updateUserOrderInDB,
-} from "./user.service";
+import { userServices } from "./user.service";
 import JoiValidationSchema from "./user.validation";
 
 // Creating a new user
-export const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const validUser = await JoiValidationSchema.validateAsync(user);
-    const result = await createUserInDB(validUser);
+    const validUser = await JoiValidationSchema.validateAsync(user); // validating data 
+    const result = await userServices.createUserInDB(validUser);
 
     res.status(200).json({
       success: true,
@@ -25,37 +16,41 @@ export const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: err.message,
     });
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+// Retrieve all users
+const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const result = await getUsersFromDB();
+    const result = await userServices.getUsersFromDB();
 
     res.status(200).json({
       success: true,
       message: "Users fetched successfully!",
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(404).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
-export const getSingleUser = async (req: Request, res: Response) => {
+
+// Retrieve a specific user
+const getSingleUser = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.userId);
-    const user = await getSingleUserFromDB(id);
+    const user = await userServices.getSingleUserFromDB(id);
     res.status(200).json({
       success: true,
       message: "User fetched successfully!",
       data: user,
     });
-
-    
   } catch (err: any) {
     res.status(404).json({
       success: false,
@@ -68,12 +63,13 @@ export const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+// Update a user
+const updateUser = async (req: Request, res: Response) => {
   try {
     const user = req.body;
-    const validUser = await JoiValidationSchema.validateAsync(user);
+    
     const id = Number(req.params.userId);
-    const result = await updateUserInDB(validUser, id);
+    const result = await userServices.updateUserInDB(user, id);
 
     res.status(200).json({
       success: true,
@@ -91,10 +87,12 @@ export const updateUser = async (req: Request, res: Response) => {
     });
   }
 };
-export const deleteUser = async (req: Request, res: Response) => {
+
+// Delete a user
+const deleteUser = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.userId);
-    const result = await deleteUserFromDB(id);
+    const result = await userServices.deleteUserFromDB(id);
 
     res.status(200).json({
       success: true,
@@ -112,11 +110,13 @@ export const deleteUser = async (req: Request, res: Response) => {
     });
   }
 };
-export const updateUserOrder = async (req: Request, res: Response) => {
+
+// Update user by adding a new order
+const updateUserOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
     const id = Number(req.params.userId);
-    const result = await updateUserOrderInDB(order, id);
+    const result = await userServices.updateUserOrderInDB(order, id);
 
     res.status(200).json({
       success: true,
@@ -135,10 +135,11 @@ export const updateUserOrder = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserOrder = async (req: Request, res: Response) => {
+// Retrieve orders of a specific user
+const getUserOrder = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.userId);
-    const result = await getOrdersFromDB(id);
+    const result = await userServices.getOrdersFromDB(id);
 
     res.status(200).json({
       success: true,
@@ -157,10 +158,11 @@ export const getUserOrder = async (req: Request, res: Response) => {
   }
 };
 
-export const getTotalPrice = async (req: Request, res: Response) => {
+// Get total price of orders for a specific user
+const getTotalPrice = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.userId);
-    const result = await getTotalPriceFromDB(id);
+    const result = await userServices.getTotalPriceFromDB(id);
 
     res.status(200).json({
       success: true,
@@ -177,4 +179,14 @@ export const getTotalPrice = async (req: Request, res: Response) => {
       },
     });
   }
+};
+export const userControllers = {
+  createUser,
+  deleteUser,
+  getAllUsers,
+  getSingleUser,
+  getTotalPrice,
+  getUserOrder,
+  updateUser,
+  updateUserOrder,
 };

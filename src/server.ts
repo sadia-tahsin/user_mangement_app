@@ -7,7 +7,8 @@ async function main() {
   try {
     await mongoose.connect(config.DB_URL as string);
     app.get("/", (req, res) => {
-      res.send("app is running");
+      res.status(200).json({
+        "message":"App is running successfully."});
     });
     app.listen(port, () => {
       console.log(`app is listening on port ${port}`);

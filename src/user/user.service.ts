@@ -1,9 +1,12 @@
 import { tUser, tOrder } from "./user.interface";
 import { UserModel } from "./user.model";
 
-export const createUserInDB = async (user: tUser) => {
+const createUserInDB = async (user: tUser) => {
   const result = await UserModel.create(user);
-  const { userId, username, fullName, age, email, isActive, hobbies, address } = result;
+
+  // destructuring to get the necessary fields
+  const { userId, username, fullName, age, email, isActive, hobbies, address } =
+    result;
   const userData = {
     userId,
     username,
@@ -13,13 +16,20 @@ export const createUserInDB = async (user: tUser) => {
     isActive,
     hobbies,
     address,
-  };
+  }; // This userData object contains the extracted fields from the result object
   return userData;
 };
 
-export const getUsersFromDB = async () => {
-  const result = await UserModel.find().select({"_id":0,"username":1, "fullName":1, "age":1, "email":1, "address":1});
-  
+const getUsersFromDB = async () => {
+  const result = await UserModel.find().select({
+    _id: 0,
+    username: 1,
+    fullName: 1,
+    age: 1,
+    email: 1,
+    address: 1,
+  }); // field filterring is applied to retrieve only the necessary fields
+
   // The array and mapping is used to ensure the sequence of the fields
   const users: Array<object> = [];
   result.map((res) => {
@@ -31,8 +41,8 @@ export const getUsersFromDB = async () => {
   return users;
 };
 
-export const getSingleUserFromDB = async (id: number) => {
-  const singleUser = await UserModel.isFound(id);
+const getSingleUserFromDB = async (id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
 
   if (singleUser) {
     const {
@@ -44,7 +54,7 @@ export const getSingleUserFromDB = async (id: number) => {
       isActive,
       hobbies,
       address,
-    } = singleUser;
+    } = singleUser; // destructuring to get the necessary fields
 
     const userData = {
       userId,
@@ -62,8 +72,8 @@ export const getSingleUserFromDB = async (id: number) => {
   }
 };
 
-export const updateUserInDB = async (user: tUser, id: number) => {
-  const singleUser = await UserModel.isFound(id);
+const updateUserInDB = async (user: tUser, id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
 
   if (singleUser) {
     const result = await UserModel.updateOne({ userId: id }, user);
@@ -79,8 +89,8 @@ export const updateUserInDB = async (user: tUser, id: number) => {
           isActive,
           hobbies,
           address,
-        } = updatedUser;
-        
+        } = updatedUser; // destructuring to get the necessary fields
+
         const userData = {
           userId,
           username,
@@ -98,8 +108,8 @@ export const updateUserInDB = async (user: tUser, id: number) => {
     throw new Error("User not found");
   }
 };
-export const deleteUserFromDB = async (id: number) => {
-  const singleUser = await UserModel.isFound(id);
+const deleteUserFromDB = async (id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
 
   if (singleUser) {
     const result = await UserModel.deleteOne({ userId: id });
@@ -112,13 +122,13 @@ export const deleteUserFromDB = async (id: number) => {
   }
 };
 
-export const updateUserOrderInDB = async (order: tOrder, id: number) => {
-  const singleUser = await UserModel.isFound(id);
-  
+const updateUserOrderInDB = async (order: tOrder, id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
+
   if (singleUser) {
     const orders = singleUser.orders;
-    orders.push(order);
-    console.log(orders);
+    orders.push(order); // adding the new order to the existing order list
+
     const result = await UserModel.updateOne(
       { userId: id },
       {
@@ -133,8 +143,8 @@ export const updateUserOrderInDB = async (order: tOrder, id: number) => {
   }
 };
 
-export const getOrdersFromDB = async (id: number) => {
-  const singleUser = await UserModel.isFound(id);
+const getOrdersFromDB = async (id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
 
   if (singleUser) {
     const result = singleUser.orders;
@@ -150,8 +160,8 @@ export const getOrdersFromDB = async (id: number) => {
   }
 };
 
-export const getTotalPriceFromDB = async (id: number) => {
-  const singleUser = await UserModel.isFound(id);
+const getTotalPriceFromDB = async (id: number) => {
+  const singleUser = await UserModel.isFound(id); // checking if the user exists or not
 
   if (singleUser) {
     const result = singleUser.orders;
@@ -160,8 +170,19 @@ export const getTotalPriceFromDB = async (id: number) => {
     result.map((res) => {
       totalPrice = totalPrice + res.price * res.quantity;
     });
+
     return { totalPrice };
   } else {
     throw new Error("User not found");
   }
+};
+export const userServices = {
+  createUserInDB,
+  deleteUserFromDB,
+  getOrdersFromDB,
+  getSingleUserFromDB,
+  getTotalPriceFromDB,
+  getUsersFromDB,
+  updateUserInDB,
+  updateUserOrderInDB,
 };
