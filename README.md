@@ -48,7 +48,7 @@ Now, the application should be running on http://localhost:5000/
    The API endpoint URL is: http://localhost:5000/api/users/:userId
 - Delete a user: To check this API for deleting a user from DB, Postman or a similar application can be used to send a DELETE request.
   The API endpoint URL is: http://localhost:5000/api/users/:userId
-- Add New Product in Order:  To examine this API for adding a new product to a user, need to make a PUT request using the Postman or similar application. The data format is similar to the [sample data](##Sample-data_for-the-POST-request-body:) 
+- Add New Product in Order:  To examine this API for adding a new product to a user, need to make a PUT request using the Postman or similar application. The data format is similar to the [Link to sample data](#sample-data_for-the-POST-request-body:) 
    The API endpoint URL is: http://localhost:5000/api/users/:userId/orders
 - Retrieve all orders for a specific user: To explore this API for retrieving orders of a user, need to make a GET request using the Postman or similar application.
    The API endpoint URL is: http://localhost:5000/api/users/:userId/orders
