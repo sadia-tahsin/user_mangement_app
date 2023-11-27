@@ -45,11 +45,21 @@ Now, the application should be running on http://localhost:5000/
 -  Retrieve a specific user by ID: This API can be checked using the Postman or similar application or directly from the browser.
  The API endpoint URL is: http://localhost:5000/api/users/:userId 
 - Update user information: To examine this API for updating a user, need to make a PUT request using the Postman or similar application.
-   The API endpoint URL is: http://localhost:5000/api/users/:userId
+  The data format is similar to the sample data for the POST route. The API endpoint URL is: http://localhost:5000/api/users/:userId
 - Delete a user: To check this API for deleting a user from DB, Postman or a similar application can be used to send a DELETE request.
   The API endpoint URL is: http://localhost:5000/api/users/:userId
-- Add New Product in Order:  To examine this API for adding a new product to a user, need to make a PUT request using the Postman or similar application. The data format is similar to the sample data for the POST route.
-   The API endpoint URL is: http://localhost:5000/api/users/:userId/orders
+- Add New Product in Order:  To examine this API for adding a new product to a user, need to make a PUT request using the Postman or similar application. The API endpoint URL is: http://localhost:5000/api/users/:userId/orders
+## Sample data for the PUT request body
+
+```
+ {
+                "productName": "Product 1",
+                "price": 23.56,
+                "quantity": 2
+            }
+
+```
+
 - Retrieve all orders for a specific user: To explore this API for retrieving orders of a user, need to make a GET request using the Postman or similar application.
    The API endpoint URL is: http://localhost:5000/api/users/:userId/orders
 - Calculate the Total Price of Orders for a Specific User: Finally, To explore this API for retrieving the total price of orders of a user, need to make a GET request using the Postman or a similar application or directly from the browser. The API endpoint URL is http://localhost:5000/api/users/:userId/orders/total-price.
